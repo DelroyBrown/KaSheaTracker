@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<header class="bg-white shadow-md p-6 text-center">
+    <h1 class="text-2xl font-bold text-gray-700">Document Management</h1>
+    <input type="search" id="documentSearch" placeholder="Search documents..." class="mt-4 p-2 border rounded-md">
+</header>
+<div class="overflow-auto p-6">
+    <table class="w-full text-left border-collapse">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="p-3 font-semibold border-b border-gray-200">Document Name</th>
+                <th class="p-3 font-semibold border-b border-gray-200">Description</th>
+                <th class="p-3 font-semibold border-b border-gray-200">Upload Date</th>
+                <th class="p-3 font-semibold border-b border-gray-200">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document in documents %}
+            <tr class="hover:bg-gray-50">
+                <td class="p-3 border-b border-gray-200">{{ document.file_name }}</td>
+                <td class="p-3 border-b border-gray-200">{{ document.description }}</td>
+                <td class="p-3 border-b border-gray-200">{{ document.upload_date|date:"Y-m-d" }}</td>
+                <td class="p-3 border-b border-gray-200">
+                    <a href="{{ document.file_upload.url }}" class="text-blue-500 hover:text-blue-700 mr-2" download>Download</a>
+                    <button onclick="deleteDocument('{{ document.id }}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center p-3 border-b border-gray-200">No documents available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="{% static 'Kashea_Documents/javascript/script.js' %}"></script>
+{% endblock content %}
